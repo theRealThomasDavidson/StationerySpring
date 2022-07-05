@@ -1,5 +1,5 @@
 package com.cognixia.jump.model;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,10 +26,12 @@ public class Inventory {
 	@Column(columnDefinition = "int default 0", nullable = false)
 	private Integer inventory;
 	
-	@OneToMany(mappedBy= "item", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy= "id", cascade = CascadeType.ALL)
 	private List<Item> items;
 	
-	public Inventory() {}
+	public Inventory() {
+		this.items = new ArrayList<Item>();
+	}
 
 	public Inventory(String name, String description, Integer inventory) {
 		super();

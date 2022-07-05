@@ -28,13 +28,13 @@ public class Order {
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	@JoinColumn(name = "user", referencedColumnName = "id")
 	private User user;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToMany(mappedBy= "item", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy= "id", cascade = CascadeType.ALL)
 	private List<Item> items;
 	
 	public Order() {

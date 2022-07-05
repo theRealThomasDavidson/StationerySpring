@@ -31,13 +31,13 @@ public class User {
 	private String password;
 	
 	@OneToOne(cascade= CascadeType.ALL)
-	@JoinColumn(name= "address_id", nullable = true, unique = true)
+	@JoinColumn(name= "address_id")
 	private Address address;
 	
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; // is user enabled? Are they currently able to use this account
 	
-	@OneToMany(mappedBy= "customer", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy= "id", cascade = CascadeType.ALL)
 	private List<Order> orders;
 	
 	public User() {
