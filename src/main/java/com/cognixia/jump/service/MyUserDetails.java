@@ -25,6 +25,7 @@ public class MyUserDetails implements UserDetails{
 		// Granted Authority -> is if this person is allowed to do this thing
 		
 		this.authorities = Arrays.asList(new SimpleGrantedAuthority("USER"));
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 	}
 
 	@Override

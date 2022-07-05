@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
@@ -25,9 +26,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/user/").permitAll()
-		//.antMatchers("/api/hello").hasAnyRole("USER","ADMIN")
-		//.antMatchers("/api/admin").hasRole("ADMIN")
+		.antMatchers(HttpMethod.GET, "/user/").hasAnyRole("USER","ADMIN")
+		.antMatchers(HttpMethod.POST, "/user/").permitAll()
+		.antMatchers("/user/").permitAll()
+		//.antMatchers("/user").hasAnyRole("USER","ADMIN")
 		//.antMatchers("/api/all").permitAll()
 		//.antMatchers("/**").hasRole("ADMIN")
 		.and().httpBasic();

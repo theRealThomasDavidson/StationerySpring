@@ -18,19 +18,27 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.cognixia.jump.util.JwtUtil;
 
+// filters in spring are used to filter through requests/responses
+// perform some check for security before a request is completed or a response is sent
+
+// this filter will intercept every request coming in and examine the header for tokens
+
+// will label this as a component so spring can recognize it and be able to autowire some of its properties
+// and call it to filter requests before sending any responses
 @Component
-public class JwtRequestFilter  extends OncePerRequestFilter {
-	
+public class JwtRequestFilter extends OncePerRequestFilter { // abstract class that makes sure an action performed once when filter is called
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
 	
+	// check the header of the request and make sure the jwt is valid in order to access the API its requesting
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-
+		
 		// this is the header that contains our jwt info from the request
 		final String authorizationHeader = request.getHeader("Authorization");
 		
@@ -79,7 +87,19 @@ public class JwtRequestFilter  extends OncePerRequestFilter {
 		// since there may be more filters that will need to access the request, we finish up and pass along
 		// the request to the next filter in the chain
 		filterChain.doFilter(request, response);
-		
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,15 +16,23 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
+import com.cognixia.jump.model.User.Role;
+
 @Entity
 public class User {
+	
+	public static enum Role {
+		ROLE_USER, ROLE_ADMIN   // roles should start with capital ROLE_ and be completely capital letters
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotBlank
 	@Column(nullable = false)
 	private String username;
-	
+
+	@NotBlank
 	@Column(nullable = false)
 	private String email;
 	
@@ -36,6 +46,10 @@ public class User {
 	
 	@Column(columnDefinition = "boolean default true")
 	private boolean enabled; // is user enabled? Are they currently able to use this account
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Role role;
 	
 	@OneToMany(mappedBy= "id", cascade = CascadeType.ALL)
 	private List<Order> orders;
@@ -102,6 +116,14 @@ public class User {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public List<Order> getOrders() {
