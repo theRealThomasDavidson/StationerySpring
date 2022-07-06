@@ -1,5 +1,7 @@
 package com.cognixia.jump.controller;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognixia.jump.model.AuthenticationRequest;
-import com.cognixia.jump.model.AuthenticationResponse;
+import com.cognixia.jump.config.JwtRequestFilter;
+import com.cognixia.jump.model.JwtRequest;
+import com.cognixia.jump.model.JwtResponse;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
-import com.cognixia.jump.util.JwtUtil;
+import com.cognixia.jump.config.JwtTokenUtil;
 
 
 @RestController
@@ -32,17 +35,8 @@ public class UserController {
 	@Autowired
 	UserRepository repo;
 	
-	@Autowired
-	AuthenticationManager authenticationManager;
-	
-	@Autowired
-	UserDetailsService userDetailsService;
 	@Autowired 
 	PasswordEncoder encoder;
-	
-	
-	@Autowired
-	JwtUtil jwtUtil;
 	
 	@GetMapping("/")
 	public ResponseEntity<?> index(){
@@ -57,4 +51,6 @@ public class UserController {
 		User created = repo.save(user);
 		return ResponseEntity.status(201).body(created);
 	}
+	
+	
 }

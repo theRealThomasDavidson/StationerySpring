@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
-import com.cognixia.jump.model.User.Role;
 
 @Entity
 public class User {
@@ -48,7 +47,7 @@ public class User {
 	private boolean enabled; // is user enabled? Are they currently able to use this account
 	
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Column(columnDefinition = "varchar(255) not null default 'ROLE_USER'")
 	private Role role;
 	
 	@OneToMany(mappedBy= "id", cascade = CascadeType.ALL)
