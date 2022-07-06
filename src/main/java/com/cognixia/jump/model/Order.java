@@ -14,10 +14,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 
 @Entity
+@Table(name="Shopping") 
 public class Order {
 	public static enum Status {
 		CART, TO_SEND, IN_MAIL, RECIEVED   // roles should start with capital ROLE_ and be completely capital letters
