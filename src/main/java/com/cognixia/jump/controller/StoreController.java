@@ -68,7 +68,7 @@ public class StoreController {
 	}
 	@GetMapping("/inventory/{name}/{amount}")
 	public ResponseEntity<?> enoughInstock(@PathVariable String name, @PathVariable int amount) throws ResourceNotFoundException{
-		Optional<Inventory> found = invRepo.inventoryInstock(name, amount);
+		Optional<Inventory> found = invRepo.enoughInventoryInstock(name, amount);
 		if(found.isEmpty()) {
 			return ResponseEntity.status(404).body("We don't have "+amount+" "+name+".");
 		}

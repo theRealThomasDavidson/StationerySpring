@@ -20,6 +20,6 @@ public interface InventoryRepository extends JpaRepository<Inventory, Long>{
 			+ "	where i.name = ?1"
 			+ "	and i.inventory > ?2", 
 			nativeQuery = true)
-	public Optional<Inventory> inventoryInstock(String name, Integer needed);
+	public Optional<Inventory> enoughInventoryInstock(String name, Integer needed);
 	public Optional<Inventory> findByName(String name);
 }
