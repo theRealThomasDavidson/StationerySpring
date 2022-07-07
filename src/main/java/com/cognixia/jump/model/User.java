@@ -16,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class User {
@@ -38,7 +41,8 @@ public class User {
 	@NotBlank
 	@Column(nullable = false)
 	private String password;
-	
+
+	@JsonIgnore
 	@OneToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name= "address_id")
 	private Address address;
@@ -49,8 +53,10 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	@Column(columnDefinition = "varchar(255) not null default 'ROLE_USER'")
 	private Role role;
+
 	
 	@OneToMany(mappedBy= "id", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Order> orders;
 	
 	public User() {
@@ -153,7 +159,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", password=" + password
-				+ ", address=" + address + ", enabled=" + enabled + ", orders=" + orders + ", getClass()=" + getClass()
+				 + ", enabled=" + enabled + ", getClass()=" + getClass()
 				+ "]";
 	}
 	
