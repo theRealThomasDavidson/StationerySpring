@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/authenticate").permitAll()
 				.antMatchers(HttpMethod.POST, "/user/").permitAll()
-
+				.antMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
 				.antMatchers("/v2/api-docs**").permitAll()
 				.antMatchers("/swagger-ui/**").permitAll()
 				// all other requests need to be authenticated
