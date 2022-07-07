@@ -1,32 +1,25 @@
 package com.cognixia.jump.controller;
 
-import java.util.Optional;
+
+import java.security.Principal;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cognixia.jump.config.JwtRequestFilter;
-import com.cognixia.jump.model.JwtRequest;
-import com.cognixia.jump.model.JwtResponse;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
-import com.cognixia.jump.config.JwtTokenUtil;
+
+import io.swagger.v3.oas.annotations.Operation;
+
 
 
 @RestController
@@ -37,7 +30,9 @@ public class UserController {
 	
 	@Autowired 
 	PasswordEncoder encoder;
-	
+	@Operation(summary = "Get all the users", 
+			   description = "Gets all the users from the animal table in the spring_project database."
+			)
 	@GetMapping("/")
 	public ResponseEntity<?> index(){
 		return ResponseEntity.status(200)
@@ -51,6 +46,11 @@ public class UserController {
 		User created = repo.save(user);
 		return ResponseEntity.status(201).body(created);
 	}
-	
+	@GetMapping("/me")
+	public ResponseEntity<?> myUser(Authentication authentication, Principal principal){
+
+		return ResponseEntity.status(200)
+				.body(repo.findByUsername(authentication.getName()));
+	}
 	
 }

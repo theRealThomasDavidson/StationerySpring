@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 public class Item {
@@ -17,11 +21,15 @@ public class Item {
 	
 	@Column(columnDefinition = "int default 1", nullable = false)
 	private Integer qty;
+
+
 	
 	@ManyToOne
 	@JoinColumn(name = "order_id", referencedColumnName = "id")
+	@JsonBackReference
 	private Order order;
 	
+
 	@ManyToOne
 	@JoinColumn(name = "inventory_id", referencedColumnName = "id")
 	private Inventory inventory;
@@ -51,7 +59,8 @@ public class Item {
 	public void setQty(Integer qty) {
 		this.qty = qty;
 	}
-
+	
+	@JsonBackReference
 	public Order getOrder() {
 		return order;
 	}
