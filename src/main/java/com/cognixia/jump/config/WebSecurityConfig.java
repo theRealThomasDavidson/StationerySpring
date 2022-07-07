@@ -58,6 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// all other requests need to be authenticated
 				//.anyRequest().permitAll().and()
 				.anyRequest().authenticated().and()
+
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				
