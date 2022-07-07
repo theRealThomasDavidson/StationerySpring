@@ -29,6 +29,7 @@ import com.cognixia.jump.model.Order;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 
+
 @WebMvcTest(UserController.class)
 public class UserControllerTests {
 private static final String STARTING_URI = "http://localhost:8080/user";

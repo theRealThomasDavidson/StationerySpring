@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.cognixia.jump.service.JwtUserDetailsService;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -25,12 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
 	@Autowired
-	private UserDetailsService jwtUserDetailsService;
+	private JwtUserDetailsService jwtUserDetailsService;
 
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 
-	
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -48,14 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// We don't need CSRF for this example
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
-				.authorizeRequests().antMatchers("/authenticate").permitAll()
+				.authorizeRequests()
+				.antMatchers("/authenticate").permitAll()
+				.antMatchers(HttpMethod.POST, "/user/").permitAll()
 
-				.antMatchers("/v2/api-docs*").permitAll()
-				
-				.antMatchers("/swagger-ui/index.html").permitAll()
+				.antMatchers("/v2/api-docs**").permitAll()
+				.antMatchers("/swagger-ui/**").permitAll()
 				// all other requests need to be authenticated
-				.anyRequest().permitAll().and()
-				//.anyRequest().authenticated().and()
+				//.anyRequest().permitAll().and()
+				.anyRequest().authenticated().and()
 				// make sure we use stateless session; session won't be used to
 				// store user's state.
 				

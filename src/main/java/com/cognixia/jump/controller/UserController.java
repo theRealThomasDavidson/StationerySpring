@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.repository.UserRepository;
 
@@ -34,9 +35,10 @@ public class UserController {
 			   description = "Gets all the users from the animal table in the spring_project database."
 			)
 	@GetMapping("/")
-	public ResponseEntity<?> thisUser(){
+	public ResponseEntity<?> thisUser(Authentication authentication, 
+			Principal principal) throws ResourceNotFoundException{
 		return ResponseEntity.status(200)
-				.body(repo.findByUsername(gi));
+				.body(repo.findByUsername(authentication.getName()));
 	}
 	
 	@GetMapping("/all")
@@ -51,12 +53,6 @@ public class UserController {
 		user.setPassword(encoder.encode(user.getPassword()));
 		User created = repo.save(user);
 		return ResponseEntity.status(201).body(created);
-	}
-	@GetMapping("/me")
-	public ResponseEntity<?> myUser(Authentication authentication, Principal principal){
-
-		return ResponseEntity.status(200)
-				.body(repo.findByUsername(authentication.getName()));
 	}
 	
 }
