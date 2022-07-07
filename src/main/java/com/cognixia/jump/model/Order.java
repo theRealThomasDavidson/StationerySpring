@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 
@@ -36,7 +41,8 @@ public class Order {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@OneToMany(mappedBy= "id", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy= "id", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Item> items;
 	
 	public Order() {
@@ -74,19 +80,15 @@ public class Order {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
+	
 	public List<Item> getItems() {
 		return items;
 	}
 
 	public void setItems(List<Item> items) {
 		this.items = items;
-		for(Item i: this.items) {
-			i.setId(null);
-			i.setOrder(this);
-		}
 	}
-	public void setNewItems(List<Item> items) {
+	public void setNewItems() {
 		for(Item i: this.items) {
 			i.setId(null);
 			i.setOrder(this);

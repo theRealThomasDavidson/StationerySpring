@@ -67,9 +67,4 @@ public class AuthenticationController {
 	public String firstPage() {
 		return "Hello World";
 	}
-	@GetMapping({ "/user" })
-	public ResponseEntity<?> index(){
-		return ResponseEntity.status(200)
-				.body(userRepo.findAll());
-	}
 }
